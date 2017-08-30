@@ -18,7 +18,7 @@ const SearchBooksBar = (props) => {
           type="text"
           placeholder="Search by title or author"
           value={props.query}
-          onChange={() => {}}
+          onChange={(event) => props.onUpdateQuery(event.target.value)}
         />
       </div>
     </div>
