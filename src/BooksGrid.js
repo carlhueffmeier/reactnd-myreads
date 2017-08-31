@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import Book from './Book'
 
 const BooksGrid = (props) => {
@@ -6,14 +7,14 @@ const BooksGrid = (props) => {
     <ol className="books-grid">
       {props.books.map((book) => (
         <li key={book.id}>
-          <Book
-            authors={book.authors}
-            title={book.title}
-            thumbnail={book.imageLinks.thumbnail}
-          />
+          <Book {...book} />
       </li>))}
     </ol>
   );
 }
+
+BooksGrid.propTypes = {
+  books: PropTypes.array.isRequired
+};
 
 export default BooksGrid
