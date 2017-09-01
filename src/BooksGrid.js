@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import Book from './Book'
 
 const BooksGrid = (props) => {
@@ -7,14 +7,15 @@ const BooksGrid = (props) => {
     <ol className="books-grid">
       {props.books.map((book) => (
         <li key={book.id}>
-          <Book {...book} />
+          <Book book={book} onMove={props.onMove}/>
       </li>))}
     </ol>
-  );
+  )
 }
 
 BooksGrid.propTypes = {
-  books: PropTypes.array.isRequired
-};
+  books: PropTypes.array.isRequired,
+  onMove: PropTypes.func.isRequired
+}
 
 export default BooksGrid

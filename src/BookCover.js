@@ -7,14 +7,14 @@ const BookCover = (props) => {
     height: 193
   }
   if (props.image) {
-    style.backgroundImage = `url(${props.image})`;
+    style.backgroundImage = `url(${props.image})`
   }
 
-  return <div className="book-cover" style={style}></div>
+  return <div className='book-cover' style={style}></div>
 }
 
 BookCover.propTypes = {
   image: PropTypes.string,
-};
+}
 
 export default BookCover
