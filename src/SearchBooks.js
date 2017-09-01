@@ -33,20 +33,12 @@ class SearchBooks extends Component {
     }
   }
 
-  addShelfInfo = (booksData) => (
-    booksData.map((book) => (
-      // If the book is in one of my shelfs, return the object with shelf info
-      this.props.myBooks.find((item) => item.id === book.id) || book
-    ))
-  )
-
   processResults = (response) => {
     if (response.error) {
       console.log('No search results: ', response.error)
       this.setState({ searchResults: [] })
     } else {
-      console.log('Got results: ', this.addShelfInfo(response))
-      this.setState({ searchResults: this.addShelfInfo(response) })
+      this.setState({ searchResults: response })
     }
   }
 
@@ -83,7 +75,8 @@ class SearchBooks extends Component {
           onUpdateQuery={this.onUpdateQuery}
         />
         <SearchBooksResults
-          books={this.state.searchResults}
+          results={this.state.searchResults}
+          myBooks={this.props.myBooks}
           onMove={this.props.onMove}
         />
       </div>
