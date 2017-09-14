@@ -1,17 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import Bookshelf from './Bookshelf'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Bookshelf from './Bookshelf';
 
-const ListBooks = (props) => {
-  const getBooksfromShelf = (shelf) => (
-    props.books.filter((book) => book.shelf === shelf)
-  )
-  const shelfs = [
-    {title: 'Currently Reading', id: 'currentlyReading'},
-    {title: 'Want to Read', id: 'wantToRead'},
-    {title: 'Read', id: 'read'},
-  ]
+const shelfs = [
+  { title: 'Currently Reading', id: 'currentlyReading' },
+  { title: 'Want to Read', id: 'wantToRead' },
+  { title: 'Read', id: 'read' },
+];
+
+const ListBooks = props => {
+  const getBooksfromShelf = shelf =>
+    props.books.filter(book => book.shelf === shelf);
+
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -19,7 +20,7 @@ const ListBooks = (props) => {
       </div>
       <div className="list-books-content">
         <div>
-          {shelfs.map((shelf) => (
+          {shelfs.map(shelf => (
             <Bookshelf
               key={shelf.id}
               title={shelf.title}
@@ -33,12 +34,12 @@ const ListBooks = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ListBooks.propTypes = {
   books: PropTypes.array.isRequired,
-  onMove: PropTypes.func.isRequired
-}
+  onMove: PropTypes.func.isRequired,
+};
 
-export default ListBooks
+export default ListBooks;

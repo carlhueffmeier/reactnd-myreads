@@ -1,78 +1,73 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI'
-import SearchBooksBar from './SearchBooksBar'
-import SearchBooksResults from './SearchBooksResults'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
+import * as BooksAPI from './BooksAPI';
+import SearchBooksBar from './SearchBooksBar';
+import SearchBooksResults from './SearchBooksResults';
+import { makeCancelable } from './makeCancelable';
 
 class SearchBooks extends Component {
   state = {
     query: '',
-    queryChanged: false,
-    lastUserInput: 0,
     searchResults: [],
-    updateInterval: null
-  }
+  };
 
-  onUpdateQuery = (query) => {
-    this.setState({
-      query,
-      lastUserInput: new Date(),
-      queryChanged: true,
-    })
-  }
+  onUpdateQuery = newValue => {
+    this.setState({ query: newValue });
+    if (this.state.query.length >= this.props.minQueryLength) {
+      this.debouncedFetch();
+    }
+  };
 
   fetchResults = () => {
-    console.log(this.state.query)
+    console.log('Fetching results: ', this.state.query);
     if (this.state.query.length > 0) {
-      BooksAPI.search(this.state.query, 20)
-      .then(this.processResults)
-      .catch(err => {
-        console.log(`Could not fetch results: ${err}`)
-        this.setState({ searchResults: [] })
-      })
+      this.stopFetching();
+      this.setState({
+        fetchPromise: makeCancelable(BooksAPI.search(this.state.query, 20)),
+      });
+      this.startFetching();
     }
-  }
+  };
+  debouncedFetch = debounce(this.fetchResults, this.props.fetchTimeout);
 
-  processResults = (response) => {
+  startFetching = () => {
+    this.state.fetchPromise.promise.then(this.processResults).catch(err => {
+      if (!err.isCanceled) {
+        console.log('Could not fetch results: ', err);
+        // TODO: Is there some way to avoid keeping reference to this in callback?
+        this.setState({ searchResults: [] });
+      }
+    });
+  };
+
+  stopFetching = () => {
+    if (this.state.fetchPromise) {
+      this.state.fetchPromise.cancel();
+    }
+  };
+
+  processResults = response => {
     if (response.error) {
-      console.log('No search results: ', response.error)
-      this.setState({ searchResults: [] })
+      console.log('No search results: ', response.error);
+      this.setState({ searchResults: [] });
     } else {
-      this.setState({ searchResults: response })
+      this.setState({ searchResults: response });
     }
-  }
+  };
 
-  timeSinceLastUserInput = () => (Date.now() - this.state.lastUserInput)
-
-  isUpdateNecessary = () => (
-    this.state.queryChanged &&
-    this.state.query.length > this.props.minQueryLength &&
-    this.timeSinceLastUserInput() > this.props.updateTimeout
-  )
-
-  updateIfNecessary = () => {
-    if (this.isUpdateNecessary()) {
-      this.setState({ queryChanged: false })
-      this.fetchResults()
-    }
-  }
-
-  componentDidMount = () => {
-    this.updateInterval = setInterval(this.updateIfNecessary, 100)
-  }
-
+  // Cancel any async action when unmounting
   componentWillUnmount = () => {
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval)
-    }
-  }
+    this.debouncedFetch.cancel();
+    this.stopFetching();
+  };
 
   render() {
     return (
       <div className="search-books">
         <SearchBooksBar
           query={this.state.query}
-          onUpdateQuery={this.onUpdateQuery}
+          onChange={this.onUpdateQuery}
         />
         <SearchBooksResults
           results={this.state.searchResults}
@@ -80,20 +75,20 @@ class SearchBooks extends Component {
           onMove={this.props.onMove}
         />
       </div>
-    )
+    );
   }
 }
 
 SearchBooks.propTypes = {
   minQueryLength: PropTypes.number,
-  updateTimeout: PropTypes.number,
+  fetchTimeout: PropTypes.number,
   onMove: PropTypes.func.isRequired,
-  myBooks: PropTypes.array.isRequired
-}
+  myBooks: PropTypes.array.isRequired,
+};
 
 SearchBooks.defaultProps = {
   minQueryLength: 2,
-  updateTimeout: 1000
-}
+  fetchTimeout: 1000,
+};
 
-export default SearchBooks
+export default SearchBooks;
