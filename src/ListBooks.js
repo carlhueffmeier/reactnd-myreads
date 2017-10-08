@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import Header from './Header';
 import Bookshelf from './Bookshelf';
 
 const shelfs = [
@@ -15,9 +17,7 @@ const ListBooks = props => {
 
   return (
     <div className="list-books">
-      <div className="list-books-title">
-        <h1>MyReads</h1>
-      </div>
+      <Header />
       <div className="list-books-content">
         <div>
           {shelfs.map(shelf => (

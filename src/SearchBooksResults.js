@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import BooksGrid from './BooksGrid';
 
 const SearchBooksResults = props => {
-  // If the book is in one of my shelfs, return the book with shelf info
+  // If the book is in one of my shelfs, return the book with shelf info instead
   const mergeShelfState = () =>
     props.results.map(
       result => props.myBooks.find(myBook => myBook.id === result.id) || result,

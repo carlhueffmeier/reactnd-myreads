@@ -1,12 +1,15 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { some } from 'lodash';
+
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
+import BookDetails from './BookDetails';
+import NotFound from './NotFound';
 import './App.css';
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     myBooks: [],
   };
@@ -38,23 +41,36 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <ListBooks books={this.state.myBooks} onMove={this.handleMove} />
-          )}
-        />
-        <Route
-          exact
-          path="/search"
-          render={() => (
-            <SearchBooks
-              myBooks={this.state.myBooks}
-              onMove={this.handleMove}
-            />
-          )}
-        />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <ListBooks books={this.state.myBooks} onMove={this.handleMove} />
+            )}
+          />
+          <Route
+            exact
+            path="/search"
+            render={() => (
+              <SearchBooks
+                myBooks={this.state.myBooks}
+                onMove={this.handleMove}
+              />
+            )}
+          />
+          <Route
+            path="/bookDetails/:bookId"
+            render={({ match }) => (
+              <BookDetails
+                bookId={match.params.bookId}
+                onMove={this.handleMove}
+                history={this.props.history}
+              />
+            )}
+          />
+          <Route component={NotFound} />
+        </Switch>
       </div>
     );
   }
