@@ -51,8 +51,7 @@ class BooksApp extends Component {
             )}
           />
           <Route
-            exact
-            path="/search"
+            path="/search:query?"
             render={() => (
               <SearchBooks
                 myBooks={this.state.myBooks}
