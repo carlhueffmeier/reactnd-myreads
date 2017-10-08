@@ -34,8 +34,7 @@ class SearchBooks extends Component {
   startFetching = () => {
     this.state.fetchPromise.promise.then(this.processResults).catch(err => {
       if (!err.isCanceled) {
-        console.log('Could not fetch results: ', err);
-        // TODO: Is there some way to avoid keeping reference to this in callback?
+        console.log(`Could not fetch results: ${err}`);
         this.setState({ searchResults: [] });
       }
     });

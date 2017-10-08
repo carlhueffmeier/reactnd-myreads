@@ -4,6 +4,7 @@ import moment from 'moment';
 import BookShelfChanger from './BookShelfChanger';
 import BookCover from './BookCover';
 import * as BooksAPI from './BooksAPI';
+import { makeCancelable } from './makeCancelable';
 
 class BookDetails extends Component {
   state = {
@@ -11,10 +12,21 @@ class BookDetails extends Component {
   };
 
   componentDidMount() {
-    BooksAPI.get(this.props.bookId).then(res => {
-      this.setState({ book: res });
-      console.log(res);
-    });
+    const fetchPromise = makeCancelable(BooksAPI.get(this.props.bookId));
+    this.setState({ fetchPromise });
+    fetchPromise.promise
+      .then(result => this.setState({ book: result }))
+      .catch(err => {
+        if (!err.isCanceled) {
+          console.warn(`Error fetching book details: ${err}`);
+        }
+      });
+  }
+
+  componentWillUnmount() {
+    if (this.state.fetchPromise) {
+      this.state.fetchPromise.cancel();
+    }
   }
 
   render() {
