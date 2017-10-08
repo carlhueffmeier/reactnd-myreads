@@ -200,6 +200,16 @@ a {
   }
 }
 
+.book-details .book-top {
+  align-self: center;
+}
+
+@media (min-width: 600px) {
+  .book-details .book-top {
+    align-self: flex-start;
+  }
+}
+
 .book-details-info {
   display: flex;
   flex-direction: column;

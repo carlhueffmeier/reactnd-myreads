@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Header from './Header';
 import BookShelfChanger from './BookShelfChanger';
 import BookCover from './BookCover';
 import * as BooksAPI from './BooksAPI';
@@ -23,7 +22,6 @@ class BookDetails extends Component {
     const shelf = book.shelf || 'none';
     return (
       <div>
-        <Header />
         <div className="book-details">
           <button
             className="book-details-close-btn"
