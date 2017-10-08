@@ -10,7 +10,7 @@ const Book = props => {
   return (
     <div className="book">
       <div className="book-top">
-        <Link to={`/bookDetails/${props.book.id}`}>
+        <Link to={`/details/${props.book.id}`}>
           <BookCover
             image={book.imageLinks ? book.imageLinks.thumbnail : null}
           />

@@ -67,6 +67,12 @@ class BooksApp extends Component {
     );
   };
 
+  getBook(id) {
+    return this.state.myBooks
+      .concat(this.state.search.results)
+      .find(book => book.id === id);
+  }
+
   render() {
     return (
       <div className="app">
@@ -90,13 +96,11 @@ class BooksApp extends Component {
             )}
           />
           <Route
-            path="/bookDetails/:bookId"
+            path="/details/:bookId"
             render={({ match }) => (
               <BookDetails
                 bookId={match.params.bookId}
-                book={this.state.myBooks
-                  .concat(this.state.search.results)
-                  .find(book => book.id === match.params.bookId)}
+                book={this.getBook(match.params.bookId)}
                 onMove={this.handleMove}
               />
             )}
