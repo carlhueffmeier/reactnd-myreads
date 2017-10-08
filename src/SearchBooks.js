@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';
 import { debounce } from 'lodash';
+import { makeCancelable } from './makeCancelable';
 import * as BooksAPI from './BooksAPI';
 import SearchBooksBar from './SearchBooksBar';
 import SearchBooksResults from './SearchBooksResults';
-import { makeCancelable } from './makeCancelable';
+import Spinner from './Spinner';
 
 class SearchBooks extends Component {
   state = {
     query: '',
+    fetching: false,
     fetchPromise: null,
   };
 
@@ -68,12 +70,16 @@ class SearchBooks extends Component {
   };
 
   handleFetch = fetchPromise => {
-    fetchPromise.promise.then(this.processResults).catch(err => {
-      if (!err.isCanceled) {
-        console.log(`Could not fetch results: ${err}`);
-        this.props.onUpdate({ query: '', results: [] });
-      }
-    });
+    this.setState({ fetching: true });
+    fetchPromise.promise
+      .then(this.processResults)
+      .catch(err => {
+        if (!err.isCanceled) {
+          console.log(`Could not fetch results: ${err}`);
+          this.props.onUpdate({ query: '', results: [] });
+        }
+      })
+      .then(() => this.setState({ fetching: false })); // In either case set fetching to false
   };
 
   cancelFetch = () => {
@@ -83,6 +89,7 @@ class SearchBooks extends Component {
   };
 
   processResults = response => {
+    this.setState({ fetching: false });
     if (response.error) {
       console.log('No search results: ', response.error);
       this.props.onUpdate({ query: '', results: [] });
@@ -104,11 +111,15 @@ class SearchBooks extends Component {
           query={this.state.query}
           onChange={this.onUpdateQuery}
         />
-        <SearchBooksResults
-          results={this.props.search.results}
-          myBooks={this.props.myBooks}
-          onMove={this.props.onMove}
-        />
+        {this.state.fetching && this.props.search.results.length === 0 ? (
+          <Spinner />
+        ) : (
+          <SearchBooksResults
+            results={this.props.search.results}
+            myBooks={this.props.myBooks}
+            onMove={this.props.onMove}
+          />
+        )}
       </div>
     );
   }
@@ -128,7 +139,7 @@ SearchBooks.propTypes = {
 
 SearchBooks.defaultProps = {
   minQueryLength: 2,
-  fetchTimeout: 1000,
+  fetchTimeout: 500,
 };
 
 export default withRouter(SearchBooks);
