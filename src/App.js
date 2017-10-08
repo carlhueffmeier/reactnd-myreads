@@ -20,6 +20,7 @@ class BooksApp extends Component {
     });
   }
 
+  // Use arrow function to prevent rebinding of this
   handleMove = (book, shelf) => {
     BooksAPI.update(book, shelf).then(response => console.log(response));
     // If book is found, replace it.
