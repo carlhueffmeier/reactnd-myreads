@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Header from './Header';
 import BookShelfChanger from './BookShelfChanger';
@@ -20,7 +19,7 @@ class BookDetails extends Component {
   }
 
   render() {
-    const { book } = this.state;
+    const book = { ...this.state.book, ...this.props.book };
     const shelf = book.shelf || 'none';
     return (
       <div>

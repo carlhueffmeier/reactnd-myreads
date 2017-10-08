@@ -64,6 +64,9 @@ class BooksApp extends Component {
             render={({ match }) => (
               <BookDetails
                 bookId={match.params.bookId}
+                book={this.state.myBooks.find(
+                  book => book.id === match.params.bookId,
+                )}
                 onMove={this.handleMove}
                 history={this.props.history}
               />
