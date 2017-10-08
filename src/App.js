@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { some } from 'lodash';
-
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
@@ -99,7 +98,6 @@ class BooksApp extends Component {
                   book => book.id === match.params.bookId,
                 )}
                 onMove={this.handleMove}
-                history={this.props.history}
               />
             )}
           />

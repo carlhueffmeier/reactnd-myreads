@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import moment from 'moment';
 import BookShelfChanger from './BookShelfChanger';
 import BookCover from './BookCover';
@@ -79,7 +80,6 @@ class BookDetails extends Component {
 BookDetails.propTypes = {
   bookId: PropTypes.string.isRequired,
   onMove: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
-export default BookDetails;
+export default withRouter(BookDetails);
