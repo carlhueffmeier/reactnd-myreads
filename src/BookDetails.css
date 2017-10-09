@@ -1,0 +1,88 @@
+.book-details {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  background: white;
+}
+
+.book-details-content {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  width: 100%;
+  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .book-details-content {
+    max-width: 800px;
+    padding: 50px;
+    flex-direction: row;
+  }
+}
+
+.book-details .book-top {
+  align-self: center;
+}
+
+@media (min-width: 600px) {
+  .book-details .book-top {
+    align-self: flex-start;
+  }
+}
+
+.book-details-info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+@media (min-width: 600px) {
+  .book-details-info {
+    padding: 0 30px;
+  }
+}
+
+.book-details-info-title {
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+@media (min-width: 600px) {
+  .book-details-info-title {
+    padding-right: 30px; /* To prevent overlap with close button */
+  }
+}
+
+.book-details-info-detail {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.book-details-info-description {
+  margin-top: 1rem;
+}
+
+.book-details-close-btn {
+  position: absolute;
+  display: block;
+  top: 20px;
+  right: 10px;
+  width: 50px;
+  height: 53px;
+  padding: 20px;
+  background: white;
+  background-image: url('./icons/close.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 28px;
+  font-size: 0;
+  border: none;
+}
+
+@media (min-width: 600px) {
+  .book-details-close-btn {
+    top: 50px;
+    right: 50px;
+  }
+}

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Bookshelf from './Bookshelf';
 import RestoredScroll from './RestoredScroll';
+import './ListBooks.css';
 
 const shelfs = [
   { title: 'Currently Reading', id: 'currentlyReading' },

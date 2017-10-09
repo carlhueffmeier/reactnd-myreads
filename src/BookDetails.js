@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import BookShelfChanger from './BookShelfChanger';
 import BookCover from './BookCover';
+import './BookDetails.css';
 
 const BookDetails = props => {
   const { book, shelf, onMove, onClose } = props;

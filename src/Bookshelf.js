@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BooksGrid from './BooksGrid';
+import './Bookshelf.css';
 
 const Bookshelf = props => {
   return (
