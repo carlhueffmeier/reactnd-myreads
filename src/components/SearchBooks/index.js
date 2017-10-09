@@ -11,7 +11,6 @@ import SearchBooksResults from 'components/SearchBooks/SearchBooksResults';
 
 class SearchBooks extends Component {
   state = {
-    query: '',
     fetching: false,
     fetchPromise: null,
   };
@@ -19,23 +18,27 @@ class SearchBooks extends Component {
   componentDidMount() {
     // Fetch results if a query is present in URL
     const { query } = queryString.parse(this.props.location.search);
-    if (this.props.search.query !== query) {
-      this.props.onUpdate({ query: '', results: [] });
-    }
-    if (query) {
-      this.setState({ query }, () => this.fetchResults(this.state.query));
+    if (this.props.query !== query) {
+      this.props.updateQuery(query || '');
     }
   }
 
-  onUpdateQuery = newQuery => {
-    this.setState({ query: newQuery }, () => {
-      // Update results if query has the specified minimum length
-      if (this.state.query.length >= this.props.minQueryLength) {
-        this.debouncedUpdateResults();
-      }
-    });
-  };
+  componentWillReceiveProps({ query }) {
+    // Update results if query has changed
+    if (
+      query &&
+      query !== this.props.query &&
+      query.length >= this.props.minQueryLength
+    ) {
+      this.debouncedUpdateResults();
+    }
+    console.log(
+      `newQuery: ${query}, oldQuery: ${this.props.query}, minLength: ${this
+        .props.minQueryLength}`,
+    );
+  }
 
+  // TODO: Refactor this
   updateResults() {
     this.updateUrl();
     this.fetchResults();
@@ -49,7 +52,7 @@ class SearchBooks extends Component {
 
   updateUrl() {
     // Update URL, so users can bookmark and navigate searches
-    const newSearch = queryString.stringify({ query: this.state.query });
+    const newSearch = queryString.stringify({ query: this.props.query });
     // Replace is more intuitive than push here in my opinion
     // I don't want to force the user to push "back" a couple of times
     // in order to return to the start page
@@ -59,12 +62,12 @@ class SearchBooks extends Component {
   }
 
   fetchResults = () => {
-    console.log('Fetching results: ', this.state.query);
+    console.log('Fetching results: ', this.props.query);
     // Cancel any pending fetches
     this.cancelFetch();
     // Make the fetch cancelable to allow the component to clean up
     // when it unmounts
-    const fetchPromise = makeCancelable(BooksAPI.search(this.state.query, 20));
+    const fetchPromise = makeCancelable(BooksAPI.search(this.props.query, 20));
     this.setState({ fetchPromise });
     this.handleFetch(fetchPromise);
   };
@@ -74,7 +77,7 @@ class SearchBooks extends Component {
     fetchPromise.promise.then(this.processResults).catch(err => {
       if (!err.isCanceled) {
         console.log(`Could not fetch results: ${err}`);
-        this.props.onUpdate({ query: '', results: [] });
+        this.props.updateResults([]);
         this.setState({ fetching: false });
       }
     });
@@ -90,9 +93,9 @@ class SearchBooks extends Component {
     this.setState({ fetching: false });
     if (response.error) {
       console.log('No search results: ', response.error);
-      this.props.onUpdate({ query: '', results: [] });
+      this.props.updateResults([]);
     } else {
-      this.props.onUpdate({ query: this.state.query, results: response });
+      this.props.updateResults(response);
     }
   };
 
@@ -103,19 +106,17 @@ class SearchBooks extends Component {
   }
 
   render() {
+    const { query, updateQuery, results, myBooks, onMove } = this.props;
     return (
       <div className="search-books">
-        <SearchBooksBar
-          query={this.state.query}
-          onChange={this.onUpdateQuery}
-        />
-        {this.state.fetching && this.props.search.results.length === 0 ? (
+        <SearchBooksBar query={query} onChange={updateQuery} />
+        {this.state.fetching && query.length === 0 ? (
           <Spinner />
         ) : (
           <SearchBooksResults
-            results={this.props.search.results}
-            myBooks={this.props.myBooks}
-            onMove={this.props.onMove}
+            results={results}
+            myBooks={myBooks}
+            onMove={onMove}
           />
         )}
       </div>
@@ -124,13 +125,12 @@ class SearchBooks extends Component {
 }
 
 SearchBooks.propTypes = {
-  search: PropTypes.shape({
-    query: PropTypes.string.isRequired,
-    results: PropTypes.array.isRequired,
-  }),
   myBooks: PropTypes.array.isRequired,
-  onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  results: PropTypes.array.isRequired,
+  updateQuery: PropTypes.func.isRequired,
+  updateResults: PropTypes.func.isRequired,
   minQueryLength: PropTypes.number,
   fetchTimeout: PropTypes.number,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -9,7 +10,16 @@ import NotFound from 'components/NotFound';
 import './styles.css';
 
 const BooksApp = props => {
-  const { location, myBooks, onMove, search, updateSearch, getBook } = props;
+  const {
+    location,
+    myBooks,
+    onMove,
+    getBook,
+    searchQuery,
+    searchResults,
+    updateSearchQuery,
+    updateSearchResults,
+  } = props;
   return (
     <div className="app">
       <TransitionGroup>
@@ -26,8 +36,10 @@ const BooksApp = props => {
                 <SearchBooks
                   myBooks={myBooks}
                   onMove={onMove}
-                  search={search}
-                  onUpdate={updateSearch}
+                  query={searchQuery}
+                  updateQuery={updateSearchQuery}
+                  results={searchResults}
+                  updateResults={updateSearchResults}
                 />
               )}
             />
@@ -47,6 +59,15 @@ const BooksApp = props => {
       </TransitionGroup>
     </div>
   );
+};
+
+BooksApp.propTypes = {
+  myBooks: PropTypes.array.isRequired,
+  onMove: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  searchResults: PropTypes.array.isRequired,
+  updateSearchQuery: PropTypes.func.isRequired,
+  updateSearchResults: PropTypes.func.isRequired,
 };
 
 export default withRouter(BooksApp);

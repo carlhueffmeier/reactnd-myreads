@@ -22,7 +22,8 @@ class BooksAppContainer extends Component {
    */
   state = {
     myBooks: [],
-    search: { query: '', results: [] },
+    searchQuery: '',
+    searchResults: [],
   };
 
   componentDidMount() {
@@ -49,29 +50,31 @@ class BooksAppContainer extends Component {
     );
   }
 
-  updateSearch(update) {
-    this.setState({
-      search: {
-        ...this.state.search,
-        ...update,
-      },
-    });
-  }
-
   getBook(id) {
     return this.state.myBooks
-      .concat(this.state.search.results)
+      .concat(this.state.searchResults)
       .find(book => book.id === id);
   }
 
+  updateSearchQuery(query) {
+    this.setState({ searchQuery: query });
+  }
+
+  updateSearchResults(results) {
+    this.setState({ searchResults: results });
+  }
+
   render() {
+    console.log('searchQuery:', this.state.searchQuery);
     return (
       <BooksApp
         myBooks={this.state.myBooks}
-        search={this.state.search}
-        updateSearch={this.updateSearch.bind(this)}
+        searchQuery={this.state.searchQuery}
+        searchResults={this.state.searchResults}
         onMove={this.handleMove.bind(this)}
         getBook={this.getBook.bind(this)}
+        updateSearchQuery={this.updateSearchQuery.bind(this)}
+        updateSearchResults={this.updateSearchResults.bind(this)}
       />
     );
   }
