@@ -1,94 +1,56 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
 import moment from 'moment';
 import BookShelfChanger from './BookShelfChanger';
 import BookCover from './BookCover';
-import * as BooksAPI from './BooksAPI';
-import { makeCancelable } from './makeCancelable';
 
-class BookDetails extends Component {
-  state = {
-    book: {},
-    closed: false,
-  };
-
-  componentDidMount() {
-    const fetchPromise = makeCancelable(BooksAPI.get(this.props.bookId));
-    this.setState({ fetchPromise });
-    fetchPromise.promise
-      .then(result => this.setState({ book: result }))
-      .catch(err => {
-        if (!err.isCanceled) {
-          console.warn(`Error fetching book details: ${err}`);
-        }
-      });
-  }
-
-  componentWillUnmount() {
-    if (this.state.fetchPromise) {
-      this.state.fetchPromise.cancel();
-    }
-  }
-
-  onClose() {
-    // A really quick user might click the button twice during animation
-    if (!this.state.closed) {
-      this.setState({ closed: true });
-      this.props.history.goBack();
-    }
-  }
-
-  render() {
-    const book = { ...this.state.book, ...this.props.book };
-    const shelf = book.shelf || 'none';
-    return (
-      <div className="book-details">
-        <div className="book-details-content">
-          <button
-            className="book-details-close-btn"
-            onClick={this.onClose.bind(this)}
-          >
-            Close
-          </button>
-          <div className="book-top">
-            <BookCover
-              image={book.imageLinks ? book.imageLinks.thumbnail : null}
-            />
-            <BookShelfChanger
-              value={shelf}
-              onChange={newShelf => this.props.onMove(book, newShelf)}
-            />
+const BookDetails = props => {
+  const { book, shelf, onMove, onClose } = props;
+  return (
+    <div className="book-details">
+      <div className="book-details-content">
+        <button className="book-details-close-btn" onClick={onClose}>
+          Close
+        </button>
+        <div className="book-top">
+          <BookCover
+            image={book.imageLinks ? book.imageLinks.thumbnail : null}
+          />
+          <BookShelfChanger
+            value={shelf}
+            onChange={newShelf => onMove(book, newShelf)}
+          />
+        </div>
+        <div className="book-details-info">
+          <div className="book-details-info-title">{book.title}</div>
+          <div className="book-details-info-detail">
+            {book.authors ? book.authors.join(', ') : ''}
           </div>
-          <div className="book-details-info">
-            <div className="book-details-info-title">{book.title}</div>
-            <div className="book-details-info-detail">
-              {book.authors ? book.authors.join(', ') : ''}
-            </div>
-            <div className="book-details-info-detail">
-              {book.publishedDate
-                ? `Published ${moment(book.publishedDate).fromNow()}`
-                : ''}
-            </div>
-            <div className="book-details-info-detail">
-              {book.pageCount ? `${book.pageCount} pages` : ''}
-            </div>
-            {book.description && (
-              <div className="book-details-info-description">
-                <div className="book-details-info-detail">Description</div>
-                <div>{book.description}</div>
-              </div>
-            )}
+          <div className="book-details-info-detail">
+            {book.publishedDate
+              ? `Published ${moment(book.publishedDate).fromNow()}`
+              : ''}
           </div>
+          <div className="book-details-info-detail">
+            {book.pageCount ? `${book.pageCount} pages` : ''}
+          </div>
+          {book.description && (
+            <div className="book-details-info-description">
+              <div className="book-details-info-detail">Description</div>
+              <div>{book.description}</div>
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
-}
-
-BookDetails.propTypes = {
-  bookId: PropTypes.string.isRequired,
-  onMove: PropTypes.func.isRequired,
+    </div>
+  );
 };
 
-export default withRouter(BookDetails);
+BookDetails.propTypes = {
+  book: PropTypes.object.isRequired,
+  shelf: PropTypes.string.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+export default BookDetails;

@@ -6,7 +6,7 @@ import { some } from 'lodash';
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
-import BookDetails from './BookDetails';
+import BookDetailsContainer from './BookDetailsContainer';
 import NotFound from './NotFound';
 import './App.css';
 
@@ -106,7 +106,7 @@ class BooksApp extends Component {
               <Route
                 path="/details/:bookId"
                 render={({ match }) => (
-                  <BookDetails
+                  <BookDetailsContainer
                     bookId={match.params.bookId}
                     book={this.getBook(match.params.bookId)}
                     onMove={this.handleMove}
