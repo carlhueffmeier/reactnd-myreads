@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import Header from './Header';
 import Bookshelf from './Bookshelf';
+import RestoredScroll from './RestoredScroll';
 
 const shelfs = [
   { title: 'Currently Reading', id: 'currentlyReading' },
@@ -17,7 +17,7 @@ const ListBooks = props => {
 
   return (
     <div className="list-books">
-      <div className="list-books-content">
+      <RestoredScroll className="list-books-content">
         <Header />
         <div>
           {shelfs.map(shelf => (
@@ -29,7 +29,7 @@ const ListBooks = props => {
             />
           ))}
         </div>
-      </div>
+      </RestoredScroll>
       <div className="open-search">
         <Link to="/search">Add a book</Link>
       </div>

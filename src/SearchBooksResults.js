@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BooksGrid from './BooksGrid';
+import RestoredScroll from './RestoredScroll';
 
 const SearchBooksResults = props => {
   // If the book is in one of my shelfs, return the book with shelf info instead
@@ -10,9 +11,9 @@ const SearchBooksResults = props => {
     );
 
   return (
-    <div className="search-books-results">
+    <RestoredScroll className="search-books-results">
       <BooksGrid onMove={props.onMove} books={mergeShelfState()} />
-    </div>
+    </RestoredScroll>
   );
 };
 
