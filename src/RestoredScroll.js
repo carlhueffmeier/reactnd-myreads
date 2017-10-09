@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-// A simple solution to keep scroll position of an element
+// A simple solution to keep scroll position of a component
 // during page transitions
 class RestoredScroll extends Component {
   componentDidMount(prevProps) {
