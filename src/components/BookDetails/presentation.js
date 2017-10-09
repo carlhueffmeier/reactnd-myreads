@@ -42,7 +42,7 @@ BookDetails.propTypes = {
   book: PropTypes.shape({
     title: PropTypes.string.isRequired,
     authors: PropTypes.array,
-    pageCount: PropTypes.string,
+    pageCount: PropTypes.number,
     publishedDate: PropTypes.string,
     description: PropTypes.string.isRequired,
   }),

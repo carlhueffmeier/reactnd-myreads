@@ -52,6 +52,7 @@ class BookDetailsContainer extends Component {
 }
 
 BookDetailsContainer.propTypes = {
+  book: PropTypes.object,
   bookId: PropTypes.string.isRequired,
   onMove: PropTypes.func.isRequired,
 };
