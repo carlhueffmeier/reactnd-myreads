@@ -79,7 +79,7 @@ class BooksApp extends Component {
           <CSSTransition
             key={this.props.location.pathname}
             classNames="page"
-            timeout={300}
+            timeout={200}
           >
             <Switch location={this.props.location}>
               <Route
