@@ -17,8 +17,8 @@ const ListBooks = props => {
 
   return (
     <div className="list-books">
-      <Header />
       <div className="list-books-content">
+        <Header />
         <div>
           {shelfs.map(shelf => (
             <Bookshelf
@@ -29,9 +29,9 @@ const ListBooks = props => {
             />
           ))}
         </div>
-        <div className="open-search">
-          <Link to="/search">Add a book</Link>
-        </div>
+      </div>
+      <div className="open-search">
+        <Link to="/search">Add a book</Link>
       </div>
     </div>
   );

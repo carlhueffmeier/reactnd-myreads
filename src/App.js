@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { some } from 'lodash';
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './ListBooks';
@@ -56,15 +58,12 @@ class BooksApp extends Component {
   };
 
   updateSearch = update => {
-    this.setState(
-      {
-        search: {
-          ...this.state.search,
-          ...update,
-        },
+    this.setState({
+      search: {
+        ...this.state.search,
+        ...update,
       },
-      () => console.log(`New state: ${this.state.search.query}`),
-    );
+    });
   };
 
   getBook(id) {
@@ -76,40 +75,51 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <ListBooks books={this.state.myBooks} onMove={this.handleMove} />
-            )}
-          />
-          <Route
-            path="/search:query?"
-            render={() => (
-              <SearchBooks
-                myBooks={this.state.myBooks}
-                search={this.state.search}
-                onMove={this.handleMove}
-                onUpdate={this.updateSearch}
+        <TransitionGroup>
+          <CSSTransition
+            key={this.props.location.pathname}
+            classNames="page"
+            timeout={300}
+          >
+            <Switch location={this.props.location}>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <ListBooks
+                    books={this.state.myBooks}
+                    onMove={this.handleMove}
+                  />
+                )}
               />
-            )}
-          />
-          <Route
-            path="/details/:bookId"
-            render={({ match }) => (
-              <BookDetails
-                bookId={match.params.bookId}
-                book={this.getBook(match.params.bookId)}
-                onMove={this.handleMove}
+              <Route
+                path="/search:query?"
+                render={() => (
+                  <SearchBooks
+                    myBooks={this.state.myBooks}
+                    search={this.state.search}
+                    onMove={this.handleMove}
+                    onUpdate={this.updateSearch}
+                  />
+                )}
               />
-            )}
-          />
-          <Route component={NotFound} />
-        </Switch>
+              <Route
+                path="/details/:bookId"
+                render={({ match }) => (
+                  <BookDetails
+                    bookId={match.params.bookId}
+                    book={this.getBook(match.params.bookId)}
+                    onMove={this.handleMove}
+                  />
+                )}
+              />
+              <Route component={NotFound} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
       </div>
     );
   }
 }
 
-export default BooksApp;
+export default withRouter(BooksApp);

@@ -34,8 +34,8 @@ class BookDetails extends Component {
     const book = { ...this.state.book, ...this.props.book };
     const shelf = book.shelf || 'none';
     return (
-      <div>
-        <div className="book-details">
+      <div className="book-details">
+        <div className="book-details-content">
           <button
             className="book-details-close-btn"
             onClick={this.props.history.goBack}
