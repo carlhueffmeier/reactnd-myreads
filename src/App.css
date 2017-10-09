@@ -245,6 +245,12 @@ a {
   font-size: 1.2em;
 }
 
+@media (min-width: 600px) {
+  .book-details-info-title {
+    padding-right: 30px; /* To prevent overlap with close button */
+  }
+}
+
 .book-details-info-detail {
   font-size: 0.9em;
   color: #555;
