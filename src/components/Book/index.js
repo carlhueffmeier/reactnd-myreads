@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import BookShelfChanger from './BookShelfChanger';
-import BookCover from './BookCover';
-import './Book.css';
+import BookshelfChanger from 'components/BookshelfChanger';
+import BookCover from 'components/BookCover';
+import './styles.css';
 
 const Book = props => {
   const { book } = props;
@@ -16,7 +16,7 @@ const Book = props => {
             image={book.imageLinks ? book.imageLinks.thumbnail : null}
           />
         </Link>
-        <BookShelfChanger
+        <BookshelfChanger
           value={shelf}
           onChange={newShelf => props.onMove(book, newShelf)}
         />

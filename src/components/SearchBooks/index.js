@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';
 import { debounce } from 'lodash';
-import { makeCancelable } from './makeCancelable';
-import * as BooksAPI from './BooksAPI';
-import SearchBooksBar from './SearchBooksBar';
-import SearchBooksResults from './SearchBooksResults';
-import Spinner from './Spinner';
+import { makeCancelable } from 'makeCancelable';
+import * as BooksAPI from 'BooksAPI';
+import Spinner from 'components/Spinner';
+import SearchBooksBar from 'components/SearchBooks/SearchBooksBar';
+import SearchBooksResults from 'components/SearchBooks/SearchBooksResults';
 
 class SearchBooks extends Component {
   state = {

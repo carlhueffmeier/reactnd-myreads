@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './BookCover.css';
+import './styles.css';
 
 const BookCover = props => {
   const style = {

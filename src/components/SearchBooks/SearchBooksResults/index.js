@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BooksGrid from './BooksGrid';
-import RestoredScroll from './RestoredScroll';
-import './SearchBooksResults.css';
+import BooksGrid from 'components/BooksGrid';
+import RestoredScroll from 'components/RestoredScroll';
+import './styles.css';
 
 const SearchBooksResults = props => {
   // If the book is in one of my shelfs, return the book with shelf info instead

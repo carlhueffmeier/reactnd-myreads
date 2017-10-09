@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './BookShelfChanger.css';
+import './styles.css';
 
-const BookShelfChanger = props => {
+const BookshelfChanger = props => {
   return (
     <div className="book-shelf-changer">
       <select
@@ -21,9 +21,9 @@ const BookShelfChanger = props => {
   );
 };
 
-BookShelfChanger.propTypes = {
+BookshelfChanger.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default BookShelfChanger;
+export default BookshelfChanger;

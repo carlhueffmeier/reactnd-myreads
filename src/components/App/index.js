@@ -3,12 +3,13 @@ import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { some } from 'lodash';
-import * as BooksAPI from './BooksAPI';
-import ListBooks from './ListBooks';
-import SearchBooks from './SearchBooks';
-import BookDetailsContainer from './BookDetailsContainer';
-import NotFound from './NotFound';
-import './App.css';
+
+import * as BooksAPI from 'BooksAPI';
+import ListBooks from 'components/ListBooks';
+import SearchBooks from 'components/SearchBooks';
+import BookDetails from 'components/BookDetails';
+import NotFound from 'components/NotFound';
+import './styles.css';
 
 class BooksApp extends Component {
   /* Below I am storing the search results with the
@@ -106,7 +107,7 @@ class BooksApp extends Component {
               <Route
                 path="/details/:bookId"
                 render={({ match }) => (
-                  <BookDetailsContainer
+                  <BookDetails
                     bookId={match.params.bookId}
                     book={this.getBook(match.params.bookId)}
                     onMove={this.handleMove}

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import './Spinner.css';
+import './styles.css';
 
 const Spinner = () => (
   <div className="sk-circle">

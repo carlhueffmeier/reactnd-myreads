@@ -1,0 +1,6 @@
+.search-books-results {
+  height: 100vh;
+  overflow: scroll;
+  padding: 27px 10px 0 20px;
+  margin-top: 53px;
+}

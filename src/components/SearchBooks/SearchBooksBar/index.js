@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './SearchBooksBar.css';
+import './styles.css';
 
 const SearchBooksBar = props => {
   return (

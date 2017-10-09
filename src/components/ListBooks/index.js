@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Header from './Header';
-import Bookshelf from './Bookshelf';
-import RestoredScroll from './RestoredScroll';
-import './ListBooks.css';
+import Header from 'components/Header';
+import Bookshelf from 'components/Bookshelf';
+import RestoredScroll from 'components/RestoredScroll';
+import './styles.css';
 
 const shelfs = [
   { title: 'Currently Reading', id: 'currentlyReading' },

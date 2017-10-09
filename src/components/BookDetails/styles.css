@@ -72,7 +72,7 @@
   height: 53px;
   padding: 20px;
   background: white;
-  background-image: url('./icons/close.svg');
+  background-image: url('../../icons/close.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 28px;

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import BookShelfChanger from './BookShelfChanger';
-import BookCover from './BookCover';
-import './BookDetails.css';
+import BookshelfChanger from 'components/BookshelfChanger';
+import BookCover from 'components/BookCover';
+import './styles.css';
 
 const BookDetails = props => {
   const { book, shelf, onMove, onClose } = props;
@@ -17,7 +17,7 @@ const BookDetails = props => {
           <BookCover
             image={book.imageLinks ? book.imageLinks.thumbnail : null}
           />
-          <BookShelfChanger
+          <BookshelfChanger
             value={shelf}
             onChange={newShelf => onMove(book, newShelf)}
           />

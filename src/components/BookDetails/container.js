@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import * as BooksAPI from './BooksAPI';
-import { makeCancelable } from './makeCancelable';
-import BookDetails from './BookDetails';
+import * as BooksAPI from 'BooksAPI';
+import { makeCancelable } from 'makeCancelable';
+import BookDetails from './presentation';
 
 class BookDetailsContainer extends Component {
   state = {
