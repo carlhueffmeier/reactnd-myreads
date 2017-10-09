@@ -17,17 +17,6 @@ a {
   text-decoration: none;
 }
 
-/* Refactor this */
-.book-top {
-  position: relative;
-  align-self: flex-start;
-  height: 200px;
-  width: 140px;
-  display: flex;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
 /* Page transitions 
  *
  * I find it easier to keep these in one place 
