@@ -71,15 +71,13 @@ class SearchBooks extends Component {
 
   handleFetch = fetchPromise => {
     this.setState({ fetching: true });
-    fetchPromise.promise
-      .then(this.processResults)
-      .catch(err => {
-        if (!err.isCanceled) {
-          console.log(`Could not fetch results: ${err}`);
-          this.props.onUpdate({ query: '', results: [] });
-        }
-      })
-      .then(() => this.setState({ fetching: false })); // In either case set fetching to false
+    fetchPromise.promise.then(this.processResults).catch(err => {
+      if (!err.isCanceled) {
+        console.log(`Could not fetch results: ${err}`);
+        this.props.onUpdate({ query: '', results: [] });
+        this.setState({ fetching: false });
+      }
+    });
   };
 
   cancelFetch = () => {
