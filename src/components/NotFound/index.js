@@ -1,10 +1,11 @@
 import React from 'react';
 import Header from 'components/Header';
+import './styles.css';
 
 const NotFound = () => (
-  <div>
+  <div className="page-not-found">
     <Header />
-    <h2>Not Found</h2>
+    <h2>404</h2>
   </div>
 );
 
