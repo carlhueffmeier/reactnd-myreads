@@ -1,27 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import BookshelfChanger from 'components/BookshelfChanger';
-import BookCover from 'components/BookCover';
+import BookTop from 'components/BookTop';
 import './styles.css';
 
 const BookDetails = props => {
-  const { book, shelf, onMove, onClose } = props;
+  const { book, onMove, onClose } = props;
   return (
     <div className="book-details">
       <div className="book-details-content">
         <button className="book-details-close-btn" onClick={onClose}>
           Close
         </button>
-        <div className="book-top">
-          <BookCover
-            image={book.imageLinks ? book.imageLinks.thumbnail : null}
-          />
-          <BookshelfChanger
-            value={shelf}
-            onChange={newShelf => onMove(book, newShelf)}
-          />
-        </div>
+        <BookTop book={book} onMove={onMove} />
         <div className="book-details-info">
           <div className="book-details-info-title">{book.title}</div>
           <div className="book-details-info-detail">
@@ -48,8 +39,13 @@ const BookDetails = props => {
 };
 
 BookDetails.propTypes = {
-  book: PropTypes.object.isRequired,
-  shelf: PropTypes.string.isRequired,
+  book: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.array,
+    pageCount: PropTypes.string,
+    publishedDate: PropTypes.string,
+    description: PropTypes.string.isRequired,
+  }),
   onMove: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
