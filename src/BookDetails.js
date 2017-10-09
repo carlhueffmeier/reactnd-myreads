@@ -10,6 +10,7 @@ import { makeCancelable } from './makeCancelable';
 class BookDetails extends Component {
   state = {
     book: {},
+    closed: false,
   };
 
   componentDidMount() {
@@ -30,6 +31,14 @@ class BookDetails extends Component {
     }
   }
 
+  onClose() {
+    // A really quick user might click the button twice during animation
+    if (!this.state.closed) {
+      this.setState({ closed: true });
+      this.props.history.goBack();
+    }
+  }
+
   render() {
     const book = { ...this.state.book, ...this.props.book };
     const shelf = book.shelf || 'none';
@@ -38,7 +47,7 @@ class BookDetails extends Component {
         <div className="book-details-content">
           <button
             className="book-details-close-btn"
-            onClick={this.props.history.goBack}
+            onClick={this.onClose.bind(this)}
           >
             Close
           </button>
