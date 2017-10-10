@@ -44,7 +44,7 @@ BookDetails.propTypes = {
     authors: PropTypes.array,
     pageCount: PropTypes.number,
     publishedDate: PropTypes.string,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
   }),
   onMove: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

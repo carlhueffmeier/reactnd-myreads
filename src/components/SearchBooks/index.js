@@ -31,25 +31,15 @@ class SearchBooks extends Component {
       query !== this.props.query &&
       query.length >= this.props.minQueryLength
     ) {
-      this.debouncedUpdateResults();
+      this.onQueryChanged();
     }
-    console.log(
-      `newQuery: ${query}, oldQuery: ${this.props.query}, minLength: ${this
-        .props.minQueryLength}`,
-    );
   }
 
-  // TODO: Refactor this
-  updateResults() {
+  // Debounce the fetch to decrease server load
+  onQueryChanged = debounce(() => {
     this.updateUrl();
     this.fetchResults();
-  }
-
-  // Debounce to make sure user finished typing
-  debouncedUpdateResults = debounce(
-    this.updateResults,
-    this.props.fetchTimeout,
-  );
+  }, this.props.fetchTimeout);
 
   updateUrl() {
     // Update URL, so users can bookmark and navigate searches
