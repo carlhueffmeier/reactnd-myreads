@@ -53,7 +53,6 @@ class SearchBooks extends Component {
   }
 
   fetchResults = () => {
-    console.log('Fetching results: ', this.props.query);
     // Cancel any pending fetches
     this.cancelFetch();
     // Make the fetch cancelable to allow the component to clean up
@@ -67,7 +66,7 @@ class SearchBooks extends Component {
     this.setState({ fetching: true });
     fetchPromise.promise.then(this.processResults).catch(err => {
       if (!err.isCanceled) {
-        console.log(`Could not fetch results: ${err}`);
+        console.warn(`Could not fetch results: ${err}`);
         this.props.updateResults([]);
         this.setState({ fetching: false });
       }
@@ -83,7 +82,7 @@ class SearchBooks extends Component {
   processResults = response => {
     this.setState({ fetching: false });
     if (response.error) {
-      console.log('No search results: ', response.error);
+      console.warn('No search results: ', response.error);
       this.props.updateResults([]);
     } else {
       this.props.updateResults(response);
@@ -101,7 +100,7 @@ class SearchBooks extends Component {
     return (
       <div className="search-books">
         <SearchBooksBar query={query} onChange={updateQuery} />
-        {this.state.fetching && query.length === 0 ? (
+        {this.state.fetching && results.length === 0 ? (
           <Spinner />
         ) : (
           <SearchBooksResults

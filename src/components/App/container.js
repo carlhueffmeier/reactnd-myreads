@@ -32,7 +32,7 @@ class BooksAppContainer extends Component {
   }
 
   handleMove(book, shelf) {
-    BooksAPI.update(book, shelf).then(response => console.log(response));
+    BooksAPI.update(book, shelf).catch(() => console.warn('Error moving book'));
     // If book is found, replace it.
     // Otherwise add it to the myBooks array.
     this.setState(
