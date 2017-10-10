@@ -4,17 +4,16 @@ import * as BooksAPI from 'BooksAPI';
 import BooksApp from './presentation';
 
 class BooksAppContainer extends Component {
-  /* Below I am storing the search results with the
-   * corresponding search query.
+  /* Below I am storing the search results and query.
    * The reasoning is, that I wanted to prevent an unnecessary
-   * fetch, when the user navigates between results and
+   * fetch when the user navigates between results and
    * book details. I could come up with three solutions to
    * this problem:
    * 1) Store the state in parent component
-   * 2) Make BookDetails a child of SearchBooks component
+   * 2) Prevent component from unmounting / Use a modal instead
    * 3) Use or reinvent a global store like Redux
    * 
-   * It seems fair to say 3) would be the best option,
+   * It seems fair to say 3) would be a better solution,
    * but I will try to make do without Redux for now.
    * 
    * If there are any best practices for this scenario,
@@ -65,7 +64,6 @@ class BooksAppContainer extends Component {
   }
 
   render() {
-    console.log('searchQuery:', this.state.searchQuery);
     return (
       <BooksApp
         myBooks={this.state.myBooks}

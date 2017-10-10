@@ -92,7 +92,7 @@ class SearchBooks extends Component {
 
   componentWillUnmount() {
     // Cancel any async action when unmounting
-    this.debouncedUpdateResults.cancel();
+    this.onQueryChanged.cancel();
     this.cancelFetch();
   }
 
