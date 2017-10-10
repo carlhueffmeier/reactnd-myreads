@@ -20,6 +20,7 @@ class SearchBooks extends Component {
     const { query } = queryString.parse(this.props.location.search);
     if (this.props.query !== query) {
       this.props.updateQuery(query || '');
+      this.props.updateResults([]);
     }
   }
 
